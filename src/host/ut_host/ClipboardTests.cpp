@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 #include "precomp.h"
@@ -267,14 +267,14 @@ class ClipboardTests
 #ifdef __INSIDE_WINDOWS
     TEST_METHOD(CanConvertCharsRequiringAltGr)
     {
-        const std::wstring wstr = L"\x20ac"; // € char U+20AC
+        const std::wstring wstr = L"\x20ac"; // â‚¬ char U+20AC
         std::deque<std::unique_ptr<IInputEvent>> events = Clipboard::Instance().TextToKeyEvents(wstr.c_str(),
                                                                                                 wstr.size());
 
         // should be converted to:
         // 1. AltGr keydown
-        // 2. € keydown
-        // 3. € keyup
+        // 2. â‚¬ keydown
+        // 3. â‚¬ keyup
         // 4. AltGr keyup
         const size_t convertedSize = 4;
         VERIFY_ARE_EQUAL(convertedSize, events.size());
@@ -298,7 +298,7 @@ class ClipboardTests
 
     TEST_METHOD(CanConvertCharsOutsideKeyboardLayout)
     {
-        const std::wstring wstr = L"\xbc"; // ¼ char U+00BC
+        const std::wstring wstr = L"\xbc"; // Â¼ char U+00BC
         const UINT outputCodepage = CP_JAPANESE;
         ServiceLocator::LocateGlobals().getConsoleInformation().OutputCP = outputCodepage;
         std::deque<std::unique_ptr<IInputEvent>> events = Clipboard::Instance().TextToKeyEvents(wstr.c_str(),
